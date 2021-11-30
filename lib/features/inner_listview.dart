@@ -28,15 +28,27 @@ class _InnerListViewState extends State<InnerListView> {
       appBar: AppBar(),
       body: Scrollbar(
         child: CustomScrollView(
+          physics: const BouncingScrollPhysics(),
           slivers: [
+            SliverAppBar(
+              expandedHeight: 500,
+              pinned: true,
+              stretch: true,
+              flexibleSpace: FlexibleSpaceBar(
+                  stretchModes: [
+                    StretchMode.blurBackground,
+                    StretchMode.zoomBackground
+                  ],
+                  title: Text('Samples'),
+                  background: Image.network(_dummyImage)),
+              onStretchTrigger: () async {
+                print('trigger');
+              },
+            ),
             SliverToBoxAdapter(
               child: Text(hello, style: Theme.of(context).textTheme.headline4),
             ),
             _InnerListFirst(items: _items),
-            SliverAppBar(
-              expandedHeight: 500,
-              flexibleSpace: FlexibleSpaceBar(title: Text('Samples'), background: Image.network(_dummyImage)),
-            ),
             SliverGrid(
               delegate: SliverChildBuilderDelegate((context, index) {
                 return const Card();
